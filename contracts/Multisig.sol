@@ -8,14 +8,14 @@
 	// mapping address to bool for valid Admins
 	//mapping uint => address => bool to track approval of each admin on each transaction
 	// transaction Detail
-	
-	contract MultiSig {
 	struct Transaction {
 	address spender;
 	uint amount;
 	uint numberOfApproval;
 	bool isActive;
 	}
+	
+	contract MultiSig {
 	address[] Admins;
 	uint constant MINIMUM = 3;
 	uint transactionId;

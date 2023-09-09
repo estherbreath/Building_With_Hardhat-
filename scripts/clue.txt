@@ -1,0 +1,34 @@
+//start scripting
+import { ethers } from 'hardhat'
+
+async function main() {
+
+// if necessary to give hardhat dafault accts
+ await ethers.getSigners()
+
+// use .connect get the address connected to the config. eg 
+ const receipt2 = await multisig
+    .connect(Admin2)
+    .createTransaction(amount, spender.address)
+
+
+}
+
+
+
+ /**
+     * 1. ethers.deployContract()
+     *      a. Helps you deploy your Contract.
+     *      b. Takes in three arguments
+     *          - The contract name (required)
+     *          - The constructor arguments (optional)
+     *          - The ether value (optional)
+     *      c. The response from .deployContract() is passed to the `.waitForDeployment()` function
+     * 2. `.waitForDeployment()`
+     *      a. A method called on the return value of the `.deployContract()`
+     *      b. e.g.,
+     *              const one = await ethers.deployContract("MyFirstContract", [1], {value: '10'})
+     *              await one.waitForDeployment();
+     */
+
+     //0xEF96135F3762eBC3052482B1e07BF1F253B6c7D2 // my factory addr
