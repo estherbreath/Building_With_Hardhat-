@@ -32,3 +32,4 @@ async function main() {
      */
 
      //0xEF96135F3762eBC3052482B1e07BF1F253B6c7D2 // my factory addr
+     //0x8Ea03302920A26a4e3C8A837681701880D400E37// new instance of multisig
