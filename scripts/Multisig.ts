@@ -1,54 +1,22 @@
 import { ethers } from 'hardhat'
 
 async function main() {
-  const [Admin1, Admin2, Admin3, Admin4, Admin5, spender] =
-    await ethers.getSigners()
-  const Owners = [
-    Admin1.address,
-    Admin2.address,
-    Admin3.address,
-    Admin4.address,
-    Admin5.address,
-  ]
-  const multisig = await ethers.deployContract('MultiSig', [Owners], {
-    value: ethers.parseEther('10'),
-  })
+  const multisigAddr = "0xCA5C57C39630508A1E88cD1FF4cA1d5207A1Ea33"
+  const amount = ethers.parseEther("0.01")
+  const spenderAddr =  '0x77aC3a62c12333DD9604f8D5cD6E350Cd33D04b4'
+  //destructure the signers
+  const [admin1, admin2, admin3] = await ethers.getSigners()
 
-  await multisig.waitForDeployment()
+  const multisig = await ethers.getContractAt('IMultisig', multisigAddr)
+  const newTransaction = await multisig.createTransaction(amount, spenderAddr)
+  await newTransaction.wait()
+  const approved = await multisig.connect(admin3).AprroveTransaction(1)
+  await approved.wait()
 
-  console.log(`Multisig  deployed to ${multisig.target}`)
+  const transaction = await multisig.getTransaction(1)
+  console.log(transaction)
 
-  const amount = ethers.parseEther('5')
 
-  const receipt = await multisig.createTransaction(amount, spender.address)
-  const receipt2 = await multisig.connect(Admin2).createTransaction(amount, spender.address)
-  const receipt3 = await multisig.connect(Admin3).createTransaction(amount, spender.address)
-  const receipt4 = await multisig.createTransaction(amount, spender.address)
-  const receipt5 = await multisig.createTransaction(amount, spender.address)
-
-  //returns the event args
-  //@ts-ignore
-  console.log(await (await receipt.wait())?.logs[0]?.args)
-
-  await multisig.connect(Admin3).AprroveTransaction(1)
-  let balancebefore = await ethers.provider.getBalance(spender.address)
-  console.log(`balance before ${ethers.formatEther(balancebefore)}`)
-
-  await multisig.connect(Admin2).AprroveTransaction(1)
-
-  console.log(
-    `Spender Balance ${ethers.formatEther(
-      (await ethers.provider.getBalance(spender.address)) - balancebefore
-    )})`
-  )
-
-  let [add, _amount, approval, isActive] = await multisig.getTransaction(1)
-  console.log(
-    add,
-    ethers.formatEther(_amount),
-    parseInt(String(approval)),
-    isActive
-  )
 }
 
 // We recommend this pattern to be able to use async/await everywhere

@@ -7,4 +7,6 @@ interface IFactory {
     function createMultisig(
         address[] memory _admins
     ) external payable returns (IMultisig newMultisig);
+
+      function getAllMultisig() external view returns (IMultisig[] memory);
 }

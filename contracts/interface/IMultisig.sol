@@ -8,4 +8,8 @@ interface IMultisig {
     function createTransaction(uint _amount, address _spender) external;
 
     function getTransaction(uint id) external view returns (Transaction memory);
+
+    function AprroveTransaction(uint id) external;
+
+
 }
